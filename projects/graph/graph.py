@@ -100,7 +100,6 @@ class Graph:
 		print("\n")
 				
 
-
 	def dft_recursive(self, starting_vertex, visited=set()):
 		"""
 		Print each vertex in depth-first order
@@ -120,12 +119,42 @@ class Graph:
 		
 
 	def bfs(self, starting_vertex, destination_vertex):
+		print("\n")
 		"""
 		Return a list containing the shortest path from
 		starting_vertex to destination_vertex in
 		breath-first order.
 		"""
-		pass  # TODO
+		
+		qq = Queue()
+		qq.enqueue([starting_vertex])
+
+		visited = set()
+
+		while qq.size() > 0:
+			path = qq.dequeue()
+
+			vert = path[-1] 
+
+			if vert not in visited:
+				visited.add(vert)
+				nextverts = self.get_neighbors(vert)
+
+				for next in nextverts:
+					new_path = list(path)
+					new_path.append(next)
+					
+					if next == destination_vertex:
+						# work goes here
+						print(152, new_path)
+						return new_path
+					qq.enqueue(new_path)
+
+
+
+
+
+
 
 	def dfs(self, starting_vertex, destination_vertex):
 		"""
@@ -204,6 +233,7 @@ if __name__ == '__main__':
 		[1, 2, 4, 6]
 	'''
 	print(graph.bfs(1, 6))
+	print(graph.bfs(4, 5))
 
 	'''
 	Valid DFS paths:
