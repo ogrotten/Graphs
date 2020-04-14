@@ -27,4 +27,5 @@ class Test(unittest.TestCase):
         self.assertEqual(earliest_ancestor(test_ancestors, 11), -1)
 
 if __name__ == '__main__':
+    print("\n\n\n BEGIN \n\n\n\n\n\n\n")
     unittest.main()

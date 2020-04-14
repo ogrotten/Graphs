@@ -79,21 +79,25 @@ class Graph:
 
 		qq = Queue()
 		qq.enqueue([starting_vertex])
-		visited = set()
+		visited = list()
 		
 		while qq.size() > 0:
 			path = qq.dequeue()
 			vert = path[-1] 
 		
 			if vert not in visited:
-				print(65,vert)
-				visited.add(vert)
+				# print(65,vert)
+				visited.append(vert)
 				nextverts = self.get_neighbors(vert)
 
 				for next_vert in nextverts:
 					new_path = list(path)
 					new_path.append(next_vert)
 					qq.enqueue(new_path)
+
+		return visited
+
+
 
 	def dft(self, starting_vertex):
 		print("\n")
@@ -193,32 +197,32 @@ class Graph:
 		# print("\n")
 
 
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        # Create a stack
-        ss = Stack()
-        ss.push([starting_vertex])
-        # Create a set of traversed vertices
-        visited = set()
-        # While queue is not empty:
-        while ss.size() > 0:
-            # dequeue/pop the first vertex
-            path = ss.pop()
-            # if not visited
-            if path[-1] not in visited:
-                # DO THE THING!!!!!!!
-                if path[-1] == destination_vertex:
-                    return path
-                # mark as visited
-                visited.add(path[-1])
-                # enqueue all neightbors
-                for next_vert in self.get_neighbors(path[-1]):
-                    new_path = list(path)
-                    new_path.append(next_vert)
-                    ss.push(new_path)
+		"""
+		Return a list containing a path from
+		starting_vertex to destination_vertex in
+		depth-first order.
+		"""
+		# Create a stack
+		ss = Stack()
+		ss.push([starting_vertex])
+		# Create a set of traversed vertices
+		visited = set()
+		# While queue is not empty:
+		while ss.size() > 0:
+			# dequeue/pop the first vertex
+			path = ss.pop()
+			# if not visited
+			if path[-1] not in visited:
+				# DO THE THING!!!!!!!
+				if path[-1] == destination_vertex:
+					return path
+				# mark as visited
+				visited.add(path[-1])
+				# enqueue all neightbors
+				for next_vert in self.get_neighbors(path[-1]):
+					new_path = list(path)
+					new_path.append(next_vert)
+					ss.push(new_path)
 
 
 	def dfs_recursive(self, starting_vertex, destination_vertex, visited=None):
