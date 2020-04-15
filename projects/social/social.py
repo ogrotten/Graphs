@@ -1,3 +1,8 @@
+import random
+import re
+
+from util import Queue
+
 class User:
 	def __init__(self, name):
 		self.name = name
@@ -62,20 +67,20 @@ class SocialGraph:
 		# Shuffle all possible friendships
 		random.shuffle(possible_friendships)
 
+		viz = []
 		# Create for first X pairs x is total //2
 		for i in range(num_users * avg_friendships // 2):
 			friendship = possible_friendships[i]
 			self.add_friendship(friendship[0], friendship[1])
+			viz.append(f"\t{friendship[0]}->{friendship[1]}\n")
+		
+		vizstring = "".join([str(e) for e in viz])
 
-		# * Hint 1: To create N random friendships, you could create a
-		# list with all possible friendship combinations, shuffle the
-		# list, then grab the first N elements from the list. You will
-		# need to `import random` to get shuffle.
-		# * Hint 2: `add_friendship(1, 2)` is the same as
-		# `add_friendship(2, 1)`. You should avoid calling one after
-		# the other since it will do nothing but print a warning. You
-		# can avoid this by only creating friendships where user1 < user2.
-
+		vizexp = 'digraph prof\n{\nedge [arrowhead="none"]\n' + vizstring + '}\n'
+		FN = "./friendmap.dot"
+		with open(FN, "w") as file:
+			file.write(vizexp)
+			
 
 		
 	def get_all_social_paths(self, user_id):
@@ -88,13 +93,41 @@ class SocialGraph:
 		The key is the friend's ID and the value is the path.
 		"""
 		visited = {}  # Note that this is a dictionary, not a set
-		# !!!! IMPLEMENT ME
+		
+		# use queue
+		qq = Queue()
+
+		# add user to queue
+		qq.enqueue([user_id])
+		
+		# while there's a queue
+		while qq.size() > 0:
+
+			# dequeue first vert
+			path = qq.dequeue()
+
+			# if not visited
+			other = path[-1]
+			if other not in visited:
+
+				# PROCESS IT
+				visited[other] = path
+
+				# full copy the path
+				james = self.friendships[other]
+				for who in james:
+					new_path = list(path)
+					new_path.append(who)
+					qq.enqueue(new_path)				
+		
 		return visited
 
 
 if __name__ == '__main__':
 	sg = SocialGraph()
-	sg.populate_graph(10, 2)
-	print(sg.friendships)
-	connections = sg.get_all_social_paths(1)
-	print(connections)
+	while True:
+		sg.populate_graph(30, 2)
+		print(f"\nfriendships\n{sg.friendships}")
+		connections = sg.get_all_social_paths(1)
+		print(f"\nconnections\n{connections}\n")
+		wait = input("press enter")
