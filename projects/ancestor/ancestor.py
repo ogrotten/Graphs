@@ -13,20 +13,6 @@ def earliest_ancestor(ancestors, starting_node):
 				added.append(item)
 
 	for i in ancestors:
-		parent = i[0]
-		child = i[1]
-
-		if parent in graph.vertices and child not in graph.vertices:
-			graph.add_vertex(child)
-		elif child in graph.vertices and parent not in graph.vertices:
-			graph.add_vertex(parent)
-		elif parent in graph.vertices and child in graph.vertices:
-			pass
-		else:
-			graph.add_vertex(parent)
-			graph.add_vertex(child)
-		
-	for i in ancestors:
 		graph.add_edge(i[1], i[0])
 
 	revisited = graph.bft(starting_node)
@@ -34,7 +20,24 @@ def earliest_ancestor(ancestors, starting_node):
 	if last == starting_node:
 		return -1
 	else:
+		print(23, last)
 		return last
+
+
+# ---------------------------------
+
+	# for i in ancestors:
+	# 	parent = i[0]
+	# 	child = i[1]
+	# 	if parent in graph.vertices and child not in graph.vertices:
+	# 		graph.add_vertex(child)
+	# 	elif child in graph.vertices and parent not in graph.vertices:
+	# 		graph.add_vertex(parent)
+	# 	elif parent in graph.vertices and child in graph.vertices:
+	# 		pass
+	# 	else:
+	# 		graph.add_vertex(parent)
+	# 		graph.add_vertex(child)
 
 
 	# for pair in ancestors:

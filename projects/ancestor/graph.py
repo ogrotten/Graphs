@@ -141,7 +141,7 @@ class Graph:
 		
 
 	def bfs(self, starting_vertex, destination_vertex):
-		print("\n")
+		# print("\n")
 		"""
 		Return a list containing the shortest path from
 		starting_vertex to destination_vertex in
