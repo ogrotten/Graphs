@@ -15,6 +15,10 @@ def earliest_ancestor(ancestors, starting_node):
 	for i in ancestors:
 		graph.add_edge(i[1], i[0])
 
+	for edge in graph.vertices:
+		print(19, graph.vertices)
+		pass
+
 	revisited = graph.bft(starting_node)
 	last = revisited[-1]
 	if last == starting_node:
