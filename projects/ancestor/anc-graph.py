@@ -23,7 +23,8 @@ class Graph:
 		"""
 		Add a vertex to the graph.
 		"""
-		self.vertices[vertex_id] = set()
+		if vertex_id not in self.vertices:
+			self.vertices[vertex_id] = set()
 
 	def add_edge(self, v1, v2):
 		"""
@@ -50,6 +51,8 @@ class Graph:
 		Print each vertex in breadth-first order
 		beginning from starting_vertex.
 		"""
+# ===================== ORIGINAL
+
 		# # make a queue with starting_vertex
 		# qq = Queue()
 		# qq.enqueue([starting_vertex])
@@ -77,23 +80,58 @@ class Graph:
 		# 			new_path.append(next_vert)
 		# 			qq.enqueue(new_path)
 
-		qq = Queue()
-		qq.enqueue([starting_vertex])
-		visited = set()
+# # ===================== SECOND
+# 		qq = Queue()
+# 		qq.enqueue([starting_vertex])
+# 		visited = list()
 		
-		while qq.size() > 0:
-			path = qq.dequeue()
-			vert = path[-1] 
+# 		while qq.size() > 0:
+# 			path = qq.dequeue()
+# 			vert = path[-1] 
 		
-			if vert not in visited:
-				print(65,vert)
-				visited.add(vert)
-				nextverts = self.get_neighbors(vert)
+# 			if vert not in visited:
+# 				# print(65,vert)
+# 				visited.append(vert)
+# 				nextverts = self.get_neighbors(vert)
 
-				for next_vert in nextverts:
+# 				for next_vert in nextverts:
+# 					new_path = list(path)
+# 					new_path.append(next_vert)
+# 					qq.enqueue(new_path)
+
+# 		return visited
+
+
+# ===================== NEW HOTNESS
+
+	def bft(self, starting_vertex):
+		"""
+		Print each vertex in breadth-first order
+		beginning from starting_vertex.
+		"""
+		queue = Queue()
+		visited = set()
+		queue.enqueue([starting_vertex])
+		ancestor_path = [starting_vertex]
+
+		while queue.size() > 0:
+			path = queue.dequeue()
+			node = path[-1]
+			if node not in visited:
+				if len(path) > len(ancestor_path):
+					ancestor_path = path
+				elif len(path) == len(ancestor_path):
+					if path[-1] < ancestor_path[-1]:
+						ancestor_path = path
+				visited.add(node)
+				neighbors = self.get_neighbors(node)
+				for next_node in neighbors:
 					new_path = list(path)
-					new_path.append(next_vert)
-					qq.enqueue(new_path)
+					new_path.append(next_node)
+					queue.enqueue(new_path)
+
+		return ancestor_path
+
 
 	def dft(self, starting_vertex):
 		print("\n")
@@ -137,7 +175,7 @@ class Graph:
 		
 
 	def bfs(self, starting_vertex, destination_vertex):
-		print("\n")
+		# print("\n")
 		"""
 		Return a list containing the shortest path from
 		starting_vertex to destination_vertex in
